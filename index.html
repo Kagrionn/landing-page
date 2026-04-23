@@ -100,10 +100,19 @@ nav.scrolled{box-shadow:0 4px 24px rgba(45,74,45,0.08)}
 
 /* ══ HERO ══ */
 .hero{
-  min-height:calc(100svh - var(--nav));
-  display:grid;grid-template-columns:1fr 1.1fr;
-  align-items:center;position:relative;overflow:hidden;
-  padding:48px clamp(24px,5vw,72px);gap:clamp(24px,4vw,56px);
+  min-height:auto; /* sebelumnya 100svh → bikin kosong */
+  display:grid;
+  grid-template-columns:1fr 1.1fr;
+  align-items:center;
+  position:relative;
+  overflow:hidden;
+  padding:80px clamp(24px,5vw,72px) 60px;
+  gap:clamp(16px,3vw,40px);
+}
+.hero-text{
+  position:relative;
+  z-index:2;
+  max-width:520px; /* biar gak terlalu melebar */
 }
 .hero-deco{
   position:absolute;inset:0;pointer-events:none;
@@ -132,7 +141,14 @@ nav.scrolled{box-shadow:0 4px 24px rgba(45,74,45,0.08)}
   line-height:1.0;letter-spacing:-1px;color:var(--dark);margin-bottom:20px;
 }
 .hero-h1 em{color:var(--g);font-style:italic;font-weight:600}
-.hero-p{font-size:clamp(14px,1.2vw,16px);font-weight:300;color:var(--muted);line-height:1.75;max-width:380px;margin-bottom:36px}
+.hero-p{
+  font-size:clamp(14px,1.2vw,16px);
+  font-weight:300;
+  color:var(--muted);
+  line-height:1.75;
+  max-width:380px;
+  margin-bottom:24px; /* sebelumnya 36px */
+}
 .hero-btns{display:flex;gap:12px;flex-wrap:wrap;align-items:center}
 
 .btn{display:inline-flex;align-items:center;gap:8px;font-family:'Outfit',sans-serif;font-weight:500;cursor:pointer;text-decoration:none;border:none;transition:all .22s}
@@ -142,7 +158,14 @@ nav.scrolled{box-shadow:0 4px 24px rgba(45,74,45,0.08)}
 .btn-outline:hover{background:var(--g-light);border-color:var(--g3)}
 
 /* hero visual — MAP CARD */
-.hero-visual{position:relative;z-index:2;display:flex;align-items:center;justify-content:center}
+.hero-visual{
+  position:relative;
+  z-index:2;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  align-self:center;
+}
 
 .map-card{
   width:100%;max-width:540px;
@@ -391,10 +414,11 @@ footer{
 @media(max-width:860px){
   .hero{
     grid-template-columns:1fr;
-    padding:40px 20px 48px;
-    gap:0;
-    min-height:unset;
+    padding:32px 16px 36px;
+    gap:12px;
+    min-height:auto;
   }
+}
   .hero-visual{display:none}
   .hero-map-mobile{display:block}
   .hero-text{text-align:center}
