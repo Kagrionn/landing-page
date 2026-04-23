@@ -145,7 +145,7 @@ nav.scrolled{box-shadow:0 4px 24px rgba(45,74,45,0.08)}
 .hero-visual{position:relative;z-index:2;display:flex;align-items:center;justify-content:center}
 
 .map-card{
-  width:clamp(300px,38vw,480px);
+  width:clamp(320px,42vw,520px);
   border-radius:24px;overflow:hidden;
   box-shadow:0 24px 64px rgba(45,74,45,0.14),0 4px 16px rgba(45,74,45,0.06);
   border:1px solid var(--border);
@@ -156,15 +156,12 @@ nav.scrolled{box-shadow:0 4px 24px rgba(45,74,45,0.08)}
 
 /* map area — static visual using OSM tile approach */
 .map-area{
-  position:relative;height:clamp(180px,24vw,300px);overflow:hidden;
-  background:#e8f0e8;cursor:pointer;
+  position:relative;overflow:hidden;display:block;
 }
-.map-area:hover .map-hover-overlay{opacity:1}
 
 /* OSM static-like map using CSS art + iframe fallback */
 .map-iframe{
-  width:100%;height:100%;border:none;display:block;
-  pointer-events:none;
+  width:100%;height:clamp(260px,30vw,380px);border:none;display:block;
 }
 .map-hover-overlay{
   position:absolute;inset:0;
@@ -388,6 +385,8 @@ footer{
 
 /* mobile map — hidden on desktop */
 .hero-map-mobile{display:none;width:100%;margin-top:32px}
+.hero-map-mobile .map-card{width:100%;max-width:100%}
+.hero-map-mobile .map-iframe{height:240px}
 
 /* ══ RESPONSIVE ══ */
 @media(max-width:860px){
@@ -471,14 +470,24 @@ footer{
       <!-- MAP: only visible on mobile, sits below buttons -->
       <div class="hero-map-mobile">
         <div class="map-card">
-          <a class="map-area" href="https://maps.google.com/?q=Batam+Centre,+Kota+Batam,+Kepulauan+Riau" target="_blank" rel="noopener" aria-label="Buka lokasi di Google Maps">
-            <iframe class="map-iframe" src="https://www.openstreetmap.org/export/embed.html?bbox=104.0300%2C1.1150%2C104.0750%2C1.1450&layer=mapnik&marker=1.1301%2C104.0522" title="Lokasi Daun Teh" loading="lazy"></iframe>
-            <div class="pulse-ring"></div><div class="pulse-ring"></div><div class="pulse-ring"></div>
-            <div class="map-pin-wrap"><div class="map-pin"></div><div class="map-shadow"></div></div>
-            <div class="map-hover-overlay"><div class="map-hover-text"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>Buka Google Maps</div></div>
-            <div class="map-badge b1"><div class="mb-label">Buka Sekarang</div><div class="mb-val">🟢 08.00–22.00</div></div>
-            <div class="map-badge b2"><div class="mb-label">Rating</div><div class="mb-val">⭐ 4.9 / 5</div></div>
-          </a>
+          <div class="map-area" style="position:relative">
+            <iframe
+              class="map-iframe"
+              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d7972.97!2d104.0522!3d1.1301!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x31d9853d97d47375%3A0xc72d88f7df1ab2d5!2sBatam%20Centre%2C%20Kota%20Batam%2C%20Kepulauan%20Riau!5e0!3m2!1sid!2sid!4v1714000000000!5m2!1sid!2sid"
+              allowfullscreen
+              referrerpolicy="no-referrer-when-downgrade"
+              title="Lokasi Daun Teh"
+              loading="lazy">
+            </iframe>
+            <div class="map-badge b1" style="pointer-events:none">
+              <div class="mb-label">Buka Sekarang</div>
+              <div class="mb-val">🟢 08.00–22.00</div>
+            </div>
+            <div class="map-badge b2" style="pointer-events:none">
+              <div class="mb-label">Rating</div>
+              <div class="mb-val">⭐ 4.9 / 5</div>
+            </div>
+          </div>
           <div class="map-info-bar">
             <div class="map-loc-row">
               <div class="map-loc-icon">📍</div>
@@ -498,40 +507,25 @@ footer{
 
     <div class="hero-visual">
       <div class="map-card">
-        <!-- MAP AREA — clickable, opens Google Maps -->
-        <a class="map-area" href="https://maps.google.com/?q=Batam+Centre,+Kota+Batam,+Kepulauan+Riau" target="_blank" rel="noopener" aria-label="Buka lokasi di Google Maps">
-          <!-- OpenStreetMap iframe — reliable, no API key needed -->
+        <div class="map-area" style="position:relative">
           <iframe
             class="map-iframe"
-            src="https://www.openstreetmap.org/export/embed.html?bbox=104.0300%2C1.1150%2C104.0750%2C1.1450&layer=mapnik&marker=1.1301%2C104.0522"
+            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d7972.97!2d104.0522!3d1.1301!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x31d9853d97d47375%3A0xc72d88f7df1ab2d5!2sBatam%20Centre%2C%20Kota%20Batam%2C%20Kepulauan%20Riau!5e0!3m2!1sid!2sid!4v1714000000000!5m2!1sid!2sid"
+            allowfullscreen
+            referrerpolicy="no-referrer-when-downgrade"
             title="Lokasi Daun Teh"
             loading="lazy">
           </iframe>
-          <!-- Animated pin overlay -->
-          <div class="pulse-ring"></div>
-          <div class="pulse-ring"></div>
-          <div class="pulse-ring"></div>
-          <div class="map-pin-wrap">
-            <div class="map-pin"></div>
-            <div class="map-shadow"></div>
-          </div>
-          <!-- Hover overlay -->
-          <div class="map-hover-overlay">
-            <div class="map-hover-text">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
-              Buka Google Maps
-            </div>
-          </div>
-          <!-- Floating info badges -->
-          <div class="map-badge b1">
+          <!-- Floating info badges — sit above iframe -->
+          <div class="map-badge b1" style="pointer-events:none">
             <div class="mb-label">Buka Sekarang</div>
             <div class="mb-val">🟢 08.00–22.00</div>
           </div>
-          <div class="map-badge b2">
+          <div class="map-badge b2" style="pointer-events:none">
             <div class="mb-label">Rating</div>
             <div class="mb-val">⭐ 4.9 / 5</div>
           </div>
-        </a>
+        </div>
         <!-- INFO BAR -->
         <div class="map-info-bar">
           <div class="map-loc-row">
