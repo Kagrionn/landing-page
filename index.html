@@ -141,29 +141,111 @@ nav.scrolled{box-shadow:0 4px 24px rgba(45,74,45,0.08)}
 .btn-outline{background:transparent;color:var(--g);padding:13px 28px;border-radius:999px;font-size:15px;border:1px solid var(--border)}
 .btn-outline:hover{background:var(--g-light);border-color:var(--g3)}
 
-/* hero visual */
+/* hero visual — MAP CARD */
 .hero-visual{position:relative;z-index:2;display:flex;align-items:center;justify-content:center}
-.cup-wrap{
-  width:clamp(220px,30vw,380px);height:clamp(220px,30vw,380px);
-  background:var(--g-light);border-radius:50%;
+
+.map-card{
+  width:clamp(300px,38vw,480px);
+  border-radius:24px;overflow:hidden;
+  box-shadow:0 24px 64px rgba(45,74,45,0.14),0 4px 16px rgba(45,74,45,0.06);
+  border:1px solid var(--border);
+  background:white;
+  animation:cardIn .6s ease both;
+}
+@keyframes cardIn{from{opacity:0;transform:translateY(24px) scale(.97)}to{opacity:1;transform:translateY(0) scale(1)}}
+
+/* map area — static visual using OSM tile approach */
+.map-area{
+  position:relative;height:clamp(180px,24vw,300px);overflow:hidden;
+  background:#e8f0e8;cursor:pointer;
+}
+.map-area:hover .map-hover-overlay{opacity:1}
+
+/* OSM static-like map using CSS art + iframe fallback */
+.map-iframe{
+  width:100%;height:100%;border:none;display:block;
+  pointer-events:none;
+}
+.map-hover-overlay{
+  position:absolute;inset:0;
+  background:rgba(45,74,45,0.45);
   display:flex;align-items:center;justify-content:center;
-  position:relative;
-  box-shadow:0 0 0 clamp(16px,2vw,32px) rgba(78,139,78,0.06),0 0 0 clamp(32px,4vw,64px) rgba(78,139,78,0.03);
+  opacity:0;transition:opacity .25s;
 }
-.cup-emoji{font-size:clamp(100px,14vw,160px);animation:bob 4s ease-in-out infinite;filter:drop-shadow(0 16px 32px rgba(0,0,0,0.12))}
-@keyframes bob{0%,100%{transform:translateY(0)}50%{transform:translateY(-10px)}}
-.badge{
-  position:absolute;background:white;border-radius:14px;
-  border:1px solid var(--border);padding:12px 16px;
-  box-shadow:0 8px 32px rgba(45,74,45,0.08);
+.map-hover-text{
+  background:white;color:var(--g);
+  font-size:13px;font-weight:500;font-family:'Outfit',sans-serif;
+  padding:10px 20px;border-radius:999px;
+  display:flex;align-items:center;gap:8px;
+}
+
+/* pin pulse */
+.map-pin-wrap{
+  position:absolute;top:50%;left:50%;transform:translate(-50%,-60%);
+  display:flex;flex-direction:column;align-items:center;
+  pointer-events:none;
+}
+.map-pin{
+  width:36px;height:36px;border-radius:50% 50% 50% 0;
+  background:var(--g);transform:rotate(-45deg);
+  display:flex;align-items:center;justify-content:center;
+  box-shadow:0 4px 16px rgba(45,74,45,0.35);
+  animation:pinBounce 2.5s ease-in-out infinite;
+}
+.map-pin::after{content:'🍵';font-size:14px;transform:rotate(45deg);display:block}
+.map-shadow{
+  width:12px;height:4px;border-radius:50%;
+  background:rgba(45,74,45,0.25);margin-top:4px;
+  animation:shadowPulse 2.5s ease-in-out infinite;
+}
+@keyframes pinBounce{0%,100%{transform:rotate(-45deg) translateY(0)}50%{transform:rotate(-45deg) translateY(-6px)}}
+@keyframes shadowPulse{0%,100%{transform:scaleX(1);opacity:.25}50%{transform:scaleX(.7);opacity:.15}}
+
+/* pulse rings */
+.pulse-ring{
+  position:absolute;top:50%;left:50%;
+  transform:translate(-50%,-50%);
+  width:24px;height:24px;border-radius:50%;
+  border:2px solid var(--g3);
+  animation:pulseOut 2s ease-out infinite;
+}
+.pulse-ring:nth-child(2){animation-delay:.6s}
+.pulse-ring:nth-child(3){animation-delay:1.2s}
+@keyframes pulseOut{0%{width:24px;height:24px;opacity:.7}100%{width:80px;height:80px;opacity:0}}
+
+/* map card bottom info */
+.map-info-bar{padding:18px 20px;background:white}
+.map-loc-row{display:flex;align-items:flex-start;gap:12px;margin-bottom:14px}
+.map-loc-icon{
+  width:36px;height:36px;border-radius:10px;
+  background:var(--g-light);display:flex;align-items:center;
+  justify-content:center;font-size:16px;flex-shrink:0;
+}
+.map-loc-name{font-size:14px;font-weight:500;color:var(--dark);margin-bottom:2px}
+.map-loc-addr{font-size:12px;color:var(--muted);line-height:1.4}
+.map-open-btn{
+  display:flex;align-items:center;justify-content:center;gap:8px;
+  width:100%;padding:12px;border-radius:12px;
+  background:var(--g);color:white;
+  font-family:'Outfit',sans-serif;font-size:13px;font-weight:500;
+  text-decoration:none;transition:all .22s;border:none;cursor:pointer;
+}
+.map-open-btn:hover{background:var(--g2);transform:translateY(-1px)}
+.map-open-btn svg{width:16px;height:16px;flex-shrink:0}
+
+/* floating badges on map card */
+.map-badge{
+  position:absolute;background:white;border-radius:10px;
+  border:1px solid var(--border);padding:9px 13px;
+  box-shadow:0 6px 24px rgba(45,74,45,0.1);
   animation:float2 5s ease-in-out infinite;
+  pointer-events:none;
 }
-.badge:nth-child(2){top:8%;right:-8%;animation-delay:0s}
-.badge:nth-child(3){bottom:14%;left:-6%;animation-delay:2.5s}
-@keyframes float2{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}
-.badge-label{font-size:10px;font-weight:500;letter-spacing:1.5px;text-transform:uppercase;color:var(--muted);margin-bottom:2px}
-.badge-val{font-family:'Cormorant Garamond',serif;font-size:20px;font-weight:600;color:var(--dark)}
-.badge-sub{font-size:11px;color:var(--muted)}
+.map-badge.b1{top:12px;right:12px;animation-delay:0s}
+.map-badge.b2{bottom:12px;left:12px;animation-delay:2s}
+@keyframes float2{0%,100%{transform:translateY(0)}50%{transform:translateY(-6px)}}
+.mb-label{font-size:9px;font-weight:500;letter-spacing:1.5px;text-transform:uppercase;color:var(--muted);margin-bottom:2px}
+.mb-val{font-size:13px;font-weight:500;color:var(--dark)}
 
 /* ══ MENU STRIP ══ */
 .menu-strip{
@@ -242,39 +324,7 @@ nav.scrolled{box-shadow:0 4px 24px rgba(45,74,45,0.08)}
 .wa-button:hover{background:#1DA851;transform:translateY(-3px);box-shadow:0 14px 40px rgba(37,211,102,0.35)}
 .wa-icon{width:26px;height:26px;flex-shrink:0}
 
-/* ══ MAP SECTION ══ */
-.map-section{padding:clamp(60px,7vw,90px) clamp(24px,6vw,100px);background:var(--cream)}
-.map-sec-label{font-size:11px;font-weight:500;letter-spacing:2.5px;text-transform:uppercase;color:var(--gold);margin-bottom:12px;text-align:center}
-.map-sec-title{font-family:'Cormorant Garamond',serif;font-size:clamp(30px,3.5vw,44px);font-weight:300;color:var(--dark);text-align:center;letter-spacing:-0.5px;margin-bottom:clamp(32px,4vw,52px)}
-.map-sec-title em{color:var(--g);font-style:italic}
-
-.map-wrap{
-  border-radius:24px;overflow:hidden;
-  border:1px solid var(--border);
-  box-shadow:0 24px 64px rgba(45,74,45,0.1);
-  position:relative;
-  max-width:900px;margin:0 auto;
-}
-.map-overlay{
-  position:absolute;bottom:0;left:0;right:0;
-  background:linear-gradient(transparent,rgba(26,43,26,0.85));
-  padding:28px 28px 24px;
-  display:flex;align-items:flex-end;justify-content:space-between;
-  gap:16px;flex-wrap:wrap;pointer-events:none;
-}
-.map-info{pointer-events:none}
-.map-name{font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:600;color:white;margin-bottom:4px}
-.map-addr{font-size:13px;color:rgba(255,255,255,0.65);line-height:1.5}
-.map-link{
-  display:inline-flex;align-items:center;gap:8px;
-  background:var(--gold);color:white;padding:11px 20px;border-radius:999px;
-  text-decoration:none;font-size:13px;font-weight:500;font-family:'Outfit',sans-serif;
-  transition:all .22s;pointer-events:all;flex-shrink:0;
-}
-.map-link:hover{background:var(--gold-l);transform:translateY(-2px)}
-
-/* iframe map */
-.map-frame{width:100%;height:clamp(300px,40vw,480px);border:none;display:block}
+/* map section removed — map now in hero */
 
 /* ══ ORDER PAGE ══ */
 .order-page{
@@ -326,11 +376,28 @@ footer{
 .footer-logo span{color:var(--gold);font-style:italic}
 .footer-copy{font-size:12px;color:rgba(255,255,255,0.3)}
 
+/* cup deco above eyebrow */
+.hero-cup-deco{
+  font-size:clamp(52px,6vw,72px);
+  display:block;margin-bottom:20px;
+  filter:drop-shadow(0 8px 20px rgba(45,74,45,0.18));
+  animation:cupBob 4s ease-in-out infinite;
+  line-height:1;
+}
+@keyframes cupBob{0%,100%{transform:translateY(0) rotate(-3deg)}50%{transform:translateY(-8px) rotate(3deg)}}
+
+/* mobile map — hidden on desktop */
+.hero-map-mobile{display:none;width:100%;margin-top:32px}
+
 /* ══ RESPONSIVE ══ */
 @media(max-width:860px){
-  .hero{grid-template-columns:1fr;padding:40px 24px}
-  .hero-visual{order:-1;margin:0 auto}
+  .hero{grid-template-columns:1fr;padding:48px 24px;gap:0}
+  /* desktop map card hidden on mobile */
+  .hero-visual{display:none}
+  /* show mobile map instead */
+  .hero-map-mobile{display:block}
   .hero-text{text-align:center}
+  .hero-cup-deco{text-align:center}
   .hero-eyebrow{justify-content:center}
   .hero-p{margin-left:auto;margin-right:auto}
   .hero-btns{justify-content:center}
@@ -340,6 +407,7 @@ footer{
   .nav-cta{display:none}
   .burger{display:flex}
   .hero-leaf{display:none}
+  .map-card{width:100%}
 }
 @media(max-width:500px){
   .menu-scroll{grid-template-columns:1fr 1fr}
@@ -386,6 +454,7 @@ footer{
     <div class="hero-leaf">🍃</div>
 
     <div class="hero-text">
+      <div class="hero-cup-deco">🍵</div>
       <div class="hero-eyebrow">Premium Tea House</div>
       <h1 class="hero-h1">
         Seteguk<br>
@@ -399,20 +468,83 @@ footer{
         <button class="btn btn-solid" onclick="go('order')">Pesan Sekarang</button>
         <button class="btn btn-outline" onclick="go('about')">Tentang Kami</button>
       </div>
+      <!-- MAP: only visible on mobile, sits below buttons -->
+      <div class="hero-map-mobile">
+        <div class="map-card">
+          <a class="map-area" href="https://maps.google.com/?q=Batam+Centre,+Kota+Batam,+Kepulauan+Riau" target="_blank" rel="noopener" aria-label="Buka lokasi di Google Maps">
+            <iframe class="map-iframe" src="https://www.openstreetmap.org/export/embed.html?bbox=104.0300%2C1.1150%2C104.0750%2C1.1450&layer=mapnik&marker=1.1301%2C104.0522" title="Lokasi Daun Teh" loading="lazy"></iframe>
+            <div class="pulse-ring"></div><div class="pulse-ring"></div><div class="pulse-ring"></div>
+            <div class="map-pin-wrap"><div class="map-pin"></div><div class="map-shadow"></div></div>
+            <div class="map-hover-overlay"><div class="map-hover-text"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>Buka Google Maps</div></div>
+            <div class="map-badge b1"><div class="mb-label">Buka Sekarang</div><div class="mb-val">🟢 08.00–22.00</div></div>
+            <div class="map-badge b2"><div class="mb-label">Rating</div><div class="mb-val">⭐ 4.9 / 5</div></div>
+          </a>
+          <div class="map-info-bar">
+            <div class="map-loc-row">
+              <div class="map-loc-icon">📍</div>
+              <div>
+                <div class="map-loc-name">DAUN TEH — Kedai Utama</div>
+                <div class="map-loc-addr">Batam Centre, Kota Batam, Kepulauan Riau</div>
+              </div>
+            </div>
+            <a class="map-open-btn" href="https://maps.google.com/?q=Batam+Centre,+Kota+Batam,+Kepulauan+Riau" target="_blank" rel="noopener">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
+              Petunjuk Arah di Google Maps
+            </a>
+          </div>
+        </div>
+      </div>
     </div>
 
     <div class="hero-visual">
-      <div class="cup-wrap">
-        <div class="cup-emoji">🍵</div>
-        <div class="badge">
-          <div class="badge-label">Terlaris</div>
-          <div class="badge-val">Teh Susu</div>
-          <div class="badge-sub">⭐ 4.9 · Favorit</div>
-        </div>
-        <div class="badge">
-          <div class="badge-label">Rating</div>
-          <div class="badge-val">4.9/5</div>
-          <div class="badge-sub">dari 2k+ ulasan</div>
+      <div class="map-card">
+        <!-- MAP AREA — clickable, opens Google Maps -->
+        <a class="map-area" href="https://maps.google.com/?q=Batam+Centre,+Kota+Batam,+Kepulauan+Riau" target="_blank" rel="noopener" aria-label="Buka lokasi di Google Maps">
+          <!-- OpenStreetMap iframe — reliable, no API key needed -->
+          <iframe
+            class="map-iframe"
+            src="https://www.openstreetmap.org/export/embed.html?bbox=104.0300%2C1.1150%2C104.0750%2C1.1450&layer=mapnik&marker=1.1301%2C104.0522"
+            title="Lokasi Daun Teh"
+            loading="lazy">
+          </iframe>
+          <!-- Animated pin overlay -->
+          <div class="pulse-ring"></div>
+          <div class="pulse-ring"></div>
+          <div class="pulse-ring"></div>
+          <div class="map-pin-wrap">
+            <div class="map-pin"></div>
+            <div class="map-shadow"></div>
+          </div>
+          <!-- Hover overlay -->
+          <div class="map-hover-overlay">
+            <div class="map-hover-text">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+              Buka Google Maps
+            </div>
+          </div>
+          <!-- Floating info badges -->
+          <div class="map-badge b1">
+            <div class="mb-label">Buka Sekarang</div>
+            <div class="mb-val">🟢 08.00–22.00</div>
+          </div>
+          <div class="map-badge b2">
+            <div class="mb-label">Rating</div>
+            <div class="mb-val">⭐ 4.9 / 5</div>
+          </div>
+        </a>
+        <!-- INFO BAR -->
+        <div class="map-info-bar">
+          <div class="map-loc-row">
+            <div class="map-loc-icon">📍</div>
+            <div>
+              <div class="map-loc-name">DAUN TEH — Kedai Utama</div>
+              <div class="map-loc-addr">Batam Centre, Kota Batam,<br>Kepulauan Riau</div>
+            </div>
+          </div>
+          <a class="map-open-btn" href="https://maps.google.com/?q=Batam+Centre,+Kota+Batam,+Kepulauan+Riau" target="_blank" rel="noopener">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
+            Petunjuk Arah di Google Maps
+          </a>
         </div>
       </div>
     </div>
@@ -459,32 +591,6 @@ footer{
         <div class="menu-name">Matcha Latte</div>
         <div class="menu-desc">Matcha Jepang grade ceremonial dengan susu oat segar. Elegan dan smooth.</div>
         <div class="menu-price">Rp 25.000</div>
-      </div>
-    </div>
-  </section>
-
-  <!-- MAP -->
-  <section class="map-section">
-    <div class="map-sec-label">Temukan Kami</div>
-    <h2 class="map-sec-title">Kunjungi <em>Kedai</em> Kami</h2>
-    <div class="map-wrap">
-      <!-- Google Maps embed: Batam Centre area -->
-      <iframe
-        class="map-frame"
-        loading="lazy"
-        allowfullscreen
-        referrerpolicy="no-referrer-when-downgrade"
-        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d15945.68!2d104.0522!3d1.1301!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x31d9853d97d47375%3A0xc72d88f7df1ab2d5!2sBatam%20Centre%2C%20Kota%20Batam%2C%20Kepulauan%20Riau!5e0!3m2!1sid!2sid!4v1700000000000!5m2!1sid!2sid"
-        title="Lokasi Daun Teh - Batam Centre">
-      </iframe>
-      <div class="map-overlay">
-        <div class="map-info">
-          <div class="map-name">DAUN TEH — Kedai Utama</div>
-          <div class="map-addr">Batam Centre, Kota Batam, Kepulauan Riau</div>
-        </div>
-        <a class="map-link" href="https://maps.google.com/?q=Batam+Centre,+Kota+Batam,+Kepulauan+Riau" target="_blank" rel="noopener">
-          🗺️ Buka Google Maps
-        </a>
       </div>
     </div>
   </section>
